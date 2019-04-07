@@ -1,5 +1,8 @@
 .DS_Store
 venv
 .idea
+sessions.txt
+data
 .vscode
 target
+freebot.properties

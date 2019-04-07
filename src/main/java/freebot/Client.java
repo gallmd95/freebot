@@ -5,13 +5,10 @@ import javax.swing.text.DefaultEditorKit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.PrintStream;
+import java.util.Arrays;
 
 public class Client {
     private final CommandFactory commandFactory;
-
-    enum Command {
-        CLEAR, START, SWITCH,
-    }
 
     Client(CommandFactory commandFactory){
         this.commandFactory = commandFactory;
@@ -19,10 +16,11 @@ public class Client {
         final JFrame frame = new JFrame();
         final JTextArea ta = new JTextArea();
         ta.setEditable(false);
+        Arrays.stream(ta.getKeyListeners()).forEach(ta::removeKeyListener);
         ta.getCaret().setVisible(true);
         Action beep = ta.getActionMap().get(DefaultEditorKit.deletePrevCharAction);
         beep.setEnabled(false);
-
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ta.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyChar() == KeyEvent.VK_ENTER) {

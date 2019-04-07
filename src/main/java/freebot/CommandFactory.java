@@ -7,19 +7,20 @@ class CommandFactory {
     private final Map<CommandId, Command> commands;
 
     enum CommandId {
-        CLEAR, HELP, START
+        CLEAR, HELP, START, REMOVE, LIST
     }
 
-    CommandFactory() {
+    CommandFactory(SessionManager sessionManager) {
         commands = new HashMap<>() {
             {
                 put(CommandId.CLEAR, new ClearCommand());
-                put(CommandId.HELP, new HelpCommand());
-                put(CommandId.START, new StartCommand());
+                put(CommandId.HELP, new HelpCommand(sessionManager));
+                put(CommandId.START, new StartCommand(sessionManager));
+                put(CommandId.LIST, new ListCommand(sessionManager));
+                put(CommandId.REMOVE, new RemoveCommand(sessionManager));
             }
         };
     }
-
 
     Command makeCommand(String commandString){
         try {
